@@ -1,4 +1,4 @@
-import { call, put, takeLatest } from 'redux-saga/effects'
+import { call, put, takeLatest, takeEvery } from 'redux-saga/effects'
 import { ADD_TODO, DELETE_TODO, TOGGLE_TODO, FETCH_TODOS, loadedTodos, addTodoSuccess, todosFailure } from '../actions/todos'
 
 function* getAllTodos () {
@@ -49,7 +49,7 @@ function* rootSaga() {
   yield takeLatest(FETCH_TODOS, getAllTodos)
   yield takeLatest(ADD_TODO, saveTodo);
   yield takeLatest(DELETE_TODO, deleteTodo);
-  yield takeLatest(TOGGLE_TODO, updateTodo);
+  yield takeEvery(TOGGLE_TODO, updateTodo);
 }
 
 export default rootSaga;

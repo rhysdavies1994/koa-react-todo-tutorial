@@ -43,7 +43,7 @@ export default function todos (state = TODOS_DEFAULT_STATE, action) {
     case DELETE_TODO:
       return {
         ...state,
-        items: state.reduce((items, todo) =>
+        items: state.items.reduce((items, todo) =>
           todo._id !== action.id ? items.concat(todo) : items, []
         )
       }
