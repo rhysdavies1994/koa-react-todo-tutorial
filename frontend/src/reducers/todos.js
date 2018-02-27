@@ -1,23 +1,23 @@
 import {
   ADD_TODO,
   ADD_TODO_SUCCESS,
-  ADD_TODO_FAILURE,
+  TODOS_FAILURE,
   TOGGLE_TODO,
   DELETE_TODO,
-  SET_TODOS
+  LOADED_TODOS
 } from '../actions/todos'
 
-const DEFAULT_STATE = {
+export const TODOS_DEFAULT_STATE = {
   loading: false,
   saving: false,
   error: '',
   items: []
 }
 
-export default function todos (state = DEFAULT_STATE, action) {
+export default function todos (state = TODOS_DEFAULT_STATE, action) {
   switch (action.type) {
-    case SET_TODOS:
-      return {...state, items: action.items, loading: false}
+    case LOADED_TODOS:
+      return {...state, items: action.todos, loading: false}
 
     case ADD_TODO:
       return {...state, saving: true}
@@ -29,8 +29,8 @@ export default function todos (state = DEFAULT_STATE, action) {
         saving: false
       }
 
-    case ADD_TODO_FAILURE:
-      return {...state, saving: false, error: action.error}
+    case TODOS_FAILURE:
+      return {...state, loading: false, saving: false, error: action.error}
 
     case TOGGLE_TODO:
       return {

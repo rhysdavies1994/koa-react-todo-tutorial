@@ -1,57 +1,44 @@
 
 import React, { Component } from 'react'
 import 'bulma/css/bulma.css'
+import { connect } from 'react-redux'
+import { addTodo, toggleTodo, deleteTodo, fetchTodos } from './actions/todos';
 
-const Todo = ({ todo, id }) => (
+const Todo = ({ todo, id, onDelete, onToggle }) => (
   <div className="box todo-item level is-mobile">
     <div className="level-left">
       <label className={`level-item todo-description ${todo.done && 'completed'}`}>
-        <input className="checkbox" type="checkbox"/>
+        <input className="checkbox" type="checkbox" checked={todo.done} onChange={onToggle}/>
         <span>{todo.description}</span>
       </label>
     </div>
     <div className="level-right">
-      <a className="delete level-item" onClick={() => {}}>Delete</a>
+      <a className="delete level-item" onClick={onDelete}>Delete</a>
     </div>
   </div>
 )
 
 class Todos extends Component {
-  state = {
-    newTodo: '',
-    todos: [],
-    error: '',
-    isLoading: false
-  }
+  state = { newTodo: '' }
 
   componentDidMount() {
-    this.fetchTodos()
-  }
-
-  fetchTodos () {
-    this.setState({ isLoading: true })
-
-    // HTTP GET Request to our backend api and load into state
-    fetch('v1/todos')
-      .then((res) => res.json())
-      .then(todos => this.setState({ isLoading: false, todos }))
-      .catch((error) => this.setState({ error: error.message }))
+    this.props.fetchTodos()
   }
 
   addTodo (event) {
     event.preventDefault() // Prevent form from reloading page
-    const { newTodo, todos } = this.state
+    const { newTodo } = this.state
 
     if(newTodo) {
-      this.setState({
-        newTodo: '',
-        todos: todos.concat({ description: newTodo, done: false })
-      })
+      const todo = { description: newTodo, done: false }
+      this.props.addTodo(todo)
+      this.setState({ newTodo: '' })
     }
   }
 
   render() {
-    let { todos, newTodo, isLoading, error } = this.state
+    let { newTodo } = this.state
+    const { todos, isLoading, isSaving, error, deleteTodo, toggleTodo } = this.props
 
     const total = todos.length
     const complete = todos.filter((todo) => todo.done).length
@@ -72,14 +59,18 @@ class Todos extends Component {
             </div>
 
             <div className="control">
-              <button className={`button is-success ${isLoading && "is-loading"}`}
-                      disabled={isLoading}>Add</button>
+              <button className={`button is-success ${(isLoading || isSaving) && "is-loading"}`}
+                      disabled={isLoading || isSaving}>Add</button>
             </div>
           </div>
         </form>
 
         <div className="container todo-list">
-          {todos.map((todo) => <Todo key={todo._id} id={todo._id} todo={todo}/> )}
+          {todos.map((todo) => <Todo key={todo._id}
+                                     id={todo._id}
+                                     todo={todo}
+                                     onDelete={() => deleteTodo(todo._id)}
+                                     onToggle={() => toggleTodo(todo._id)}/> )}
           <div className="white">
             Total: {total}  , Complete: {complete} , Incomplete: {incomplete}
           </div>
@@ -89,4 +80,20 @@ class Todos extends Component {
   }
 }
 
-export default Todos
+const mapStateToProps = (state) => {
+  return {
+    todos: state.todos.items,
+    isLoading: state.todos.loading,
+    isSaving: state.todos.saving,
+    error: state.todos.error
+  }
+}
+
+const mapDispatchToProps = {
+  addTodo,
+  toggleTodo,
+  deleteTodo,
+  fetchTodos
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Todos)
