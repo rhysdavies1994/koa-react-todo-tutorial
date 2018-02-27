@@ -1,0 +1,52 @@
+html {
+  background-color: #222222;
+}
+
+body {
+  background: cornflowerblue;
+}
+
+.App {
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.todo-item {
+  text-align: left;
+}
+
+.error {
+  color: crimson;
+}
+
+.full-column {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.white {
+  color: white !important;
+}
+
+.checkbox {
+  margin-right: 10px;
+}
+
+.completed {
+  text-decoration-line: line-through;
+}
+
+.todo-description {
+  cursor: pointer;
+}
+
+.todo-list {
+  max-width: 400px !important;
+}
+
+.form {
+  margin-bottom: 50px;
+}
