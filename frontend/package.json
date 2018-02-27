@@ -13,7 +13,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "rm -rf ./build react-scripts build && rm -rf ../backend/build && mv ./build ../backend/build",
+    "build": "rm -rf ./build && react-scripts build && rm -rf ../backend/build && mv ./build ../backend/build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },

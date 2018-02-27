@@ -1,4 +1,4 @@
-const Todo = require('../models/Todo')
+const Todo = require('../models/todo')
 
 async function findAll (ctx) {
   // Fetch all Todo's from the database and return as payload

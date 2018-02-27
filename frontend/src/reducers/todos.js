@@ -4,7 +4,8 @@ import {
   TODOS_FAILURE,
   TOGGLE_TODO,
   DELETE_TODO,
-  LOADED_TODOS
+  LOADED_TODOS,
+  FETCH_TODOS
 } from '../actions/todos'
 
 export const TODOS_DEFAULT_STATE = {
@@ -18,6 +19,10 @@ export default function todos (state = TODOS_DEFAULT_STATE, action) {
   switch (action.type) {
     case LOADED_TODOS:
       return {...state, items: action.todos, loading: false}
+
+    case FETCH_TODOS: {
+      return {...state, loading: true}
+    }
 
     case ADD_TODO:
       return {...state, saving: true}

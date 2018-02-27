@@ -7,7 +7,8 @@
     "start": "concurrently --kill-others \"npm run backend\" \"npm run frontend\"",
     "backend": "cd backend && npm run dev",
     "frontend": "cd frontend && npm start",
-    "build": "cd frontend && npm run build"
+    "build": "cd frontend && npm run build",
+    "deploy": "npm run build && cd backend && now"
   },
   "author": "",
   "license": "ISC",

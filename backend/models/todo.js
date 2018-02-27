@@ -1,4 +1,3 @@
-
 /* models/todo.js */
 const mongoose = require('mongoose')
 
